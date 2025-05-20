@@ -184,8 +184,8 @@ func printHeader() {
 	fmt.Println("Desenvolvido para baixar edições do TJPE.")
 	fmt.Println("===========================================")
 	fmt.Println("Como usar:")
-	fmt.Println("  go run cmd/main.go -start=<edição inicial> -end=<edição final> -csv=<caminho do CSV> -log=<arquivo de log> -min=<pausa mínima> -max=<pausa máxima>")
+	fmt.Println("  ./goprogram or goprogram.exe -start=<edição inicial> -end=<edição final> -csv=<caminho do CSV> -log=<arquivo de log> -min=<pausa mínima> -max=<pausa máxima>")
 	fmt.Println("Exemplo:")
-	fmt.Println("  go run cmd/main.go -start=1 -end=10 -csv=csvdje2024-2025.csv -log=download_log.txt -min=5 -max=10")
+	fmt.Println("  ./goprogram or goprogram.exe -start=1 -end=10 -csv=csvdje2024-2025.csv -log=download_log.txt -min=5 -max=10")
 	fmt.Println("===========================================")
 }
