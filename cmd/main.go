@@ -38,6 +38,9 @@ func main() {
 	maxRetries := flag.Int("retries", 3, "Número máximo de tentativas de download")
 	forceTor := flag.Bool("tor", false, "Forçar uso do Tor (padrão: falso, tenta conexão direta primeiro)")
 
+	// Configuração do ano
+	year := flag.Int("year", time.Now().Year(), "Ano das edições a serem baixadas")
+
 	flag.Parse()
 
 	// Exibir cabeçalho
@@ -57,7 +60,6 @@ func main() {
 
 	// Configurações iniciais
 	baseURL := "https://www2.tjpe.jus.br/dje/DownloadServlet?dj=DJ%d_%d-ASSINADO.PDF&statusDoDiario=ASSINADO"
-	year := 2024
 
 	// Ler mapeamento do CSV
 	dateMap, err := loadDateMapping(*csvPath)
@@ -98,7 +100,7 @@ func main() {
 			continue
 		}
 
-		url := fmt.Sprintf(baseURL, edition, year)
+		url := fmt.Sprintf(baseURL, edition, *year)
 
 		// Substituir barras na data por hífens para evitar problemas no sistema de arquivos
 		safeDate := strings.ReplaceAll(date, "/", "-")
@@ -307,6 +309,7 @@ func printHeader() {
 	fmt.Println("  -start=N                 Número da edição inicial")
 	fmt.Println("  -end=N                  Número da edição final (opcional, padrão: igual ao inicial)")
 	fmt.Println("\nParâmetros opcionais:")
+	fmt.Println("  -year=AAAA             Ano das edições (padrão: ano atual)")
 	fmt.Println("  -csv=arquivo.csv        Arquivo CSV com mapeamento (padrão: csvdje2024-2025.csv)")
 	fmt.Println("  -log=arquivo.txt        Arquivo de log (padrão: download_log.txt)")
 	fmt.Println("  -min=N                  Pausa mínima entre downloads em segundos (padrão: 3)")
@@ -318,11 +321,11 @@ func printHeader() {
 	fmt.Println("  -retries=N              Número máximo de tentativas (padrão: 3)")
 	fmt.Println("\nExemplos:")
 	fmt.Println("1. Download direto (tenta conexão normal primeiro):")
-	fmt.Println("  ./downloaddje -start=1 -end=10")
+	fmt.Println("  ./downloaddje -start=1 -end=10 -year=2024")
 	fmt.Println("\n2. Download forçando uso do Tor (útil no Whonix):")
-	fmt.Println("  ./downloaddje -start=1 -end=10 -tor -timeout=180 -retries=5")
+	fmt.Println("  ./downloaddje -start=1 -end=10 -year=2024 -tor -timeout=180 -retries=5")
 	fmt.Println("\n3. Download com configurações personalizadas:")
-	fmt.Println("  ./downloaddje -start=1 -end=10 -csv=csvdje2024-2025.csv -min=10 -max=20 \\")
+	fmt.Println("  ./downloaddje -start=1 -end=10 -year=2024 -csv=csvdje2024-2025.csv -min=10 -max=20 \\")
 	fmt.Println("              -tor -timeout=300 -retries=7 -proxy=127.0.0.1:9050")
 	fmt.Println("===========================================")
 }
